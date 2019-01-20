@@ -23,12 +23,28 @@
            
           }
 </style>
+  <script>
+      function loadImages() {
+        // var img_tmp = document.images[0];
+
+        volcano1 = new Image();
+        volcano2 = new Image();
+        volcano3 = new Image();
+        volcano4 = new Image();
+
+        volcano1.src = "pictures/level1.jpg";
+        volcano2.src = 'pictures/level2.jpg';
+        volcano3.src = 'pictures/level3.jpg';
+        volcano4.src = 'pictures/level4.jpg';
+
+        console.log('Loading images!!!!!!!!!');
+      }
+  </script>
 
 </head>
 
 
-<body style="background-image:url(back.jpg); padding:0; margin:0;"  >
-
+<body style="background-image:url(back.jpg); padding:0; margin:0;" onload="loadImages()"  >
 
     <div class="hero-image">
                
@@ -47,9 +63,14 @@
   </script>
 
 
-    <div class = "container">
-        <canvas id="myChart"></canvas>
+    <div class = "container" style="width: 100%; overflow: hidden;"> 
+        <div style="width: 200px; float: left;"><img id="volcanoImage" height="180" width="180" src=""></div>
+        <div style="margin-left: 210px;" id="fautTravailler">
+            <canvas id="bar-chart" width="120" height="150" style="display: block; max-width: 160px; margin: 10px;"></canvas>
+        </div>
+        
     </div>
+    <div> <canvas id="myChart" width="200" height="100"></canvas> </div> 
 
 
 </body>
