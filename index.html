@@ -8,7 +8,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
   <script type="text/javascript" src="js/appJ.js"></script> 
   <script type="text/javascript" src="js/list.js"></script>  
-  <script src="js/search.js"></script>
+  <script type="text/javascript" src="js/search.js"></script>
 
   <title>YO C'EST NOTRE APP</title>
   <header>
@@ -31,7 +31,40 @@
 
   <script>
       function appear() {
-        var x = document.getElementById("myDIV").innerHTML = document.getElementById("myInput").value;
+
+        
+        var promise1 = new Promise(function(resolve, reject) {
+            performSearch(document.getElementById("myInput").value);
+            setTimeout(function() {
+                resolve('foo');
+            }, 300);
+        });
+
+        // promise1.then(function(value) {
+        //     console.log(value);
+        //     // expected output: "foo"
+        // }, function(error) { console.error(error); });
+
+        // alert('a');
+
+        promise1.then((successMessage) => {
+            // successMessage is whatever we passed in the resolve(...) function above.
+            // It doesn't have to be a string, but if it is only a succeed message, it probably will be.
+            console.log("Yay! " + successMessage);
+            //res = "Yay";
+            document.getElementById("myDIV").innerHTML = 'res = ' + extractedRating;
+        });
+        
+
+        // performSearch('beef').then(
+        //     function(a) {res = 'a';},
+        //     function(b) { res = 'b'; }
+        // );
+        // var x = document.getElementById("myDIV").innerHTML = //document.getElementById("myInput").value;
+        //      res;
+
+        // alert(res);
+        
       }
   </script>
 

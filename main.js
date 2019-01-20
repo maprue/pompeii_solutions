@@ -4,6 +4,7 @@ const electron = require('electron');
 //var app = require('electron').app;
 //var BrowserWindow = require('browser-window');
 var {app, BrowserWindow, crashReporter} = electron;
+var PythonShell;
 
 crashReporter.start({
  productName: 'TaskApp',
@@ -29,5 +30,8 @@ app.on('ready', function() {
     mainWindow.on('closed', function() {
         mainWindow = null;
     });
+
+    PythonShell = require('python-shell');
+
 });
 

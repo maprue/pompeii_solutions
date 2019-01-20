@@ -27,6 +27,7 @@ def searchItem(string):
             result['Storage'] = donnees['Storage'][i]
             result['Packaging'] = donnees['Packaging'][i]
             result['TOTAL'] = donnees['TOTAL'][i]
+            result['Rating'] = donnees['Rating'][i]
             results[numItems] = result
             #print(json.dumps(result))
             #print(donnees['Raw'][i],
@@ -45,5 +46,6 @@ print(json.dumps(results))
 #print('{"a":5}')
 
 sys.stdout.flush()
+
 
 
