@@ -1,3 +1,11 @@
+
+
+var volcano1;
+var volcano2;
+var volcano3;
+var volcano4;
+
+
 function autocomplete(inp, arr) {
 
     function extractDbData() {
@@ -141,9 +149,65 @@ function autocomplete(inp, arr) {
 function displayCarbonFootprint() {
   // document.body.innerHTML = document.body.innerHTML + "MY ANACONDA DONT";
 
+
+    octoMat = extractedRating / 80.0;
+    if (octoMat < 0.25)
+      document.getElementById("volcanoImage").src = volcano1.src;
+    else if (octoMat < 0.50)
+      document.getElementById("volcanoImage").src = volcano2.src;
+    else if (octoMat < 0.75)
+      document.getElementById("volcanoImage").src = volcano3.src;
+    else
+      document.getElementById("volcanoImage").src = volcano4.src;
+
+    // document.getElementById("fautTravailler").innerHTML = extractedRating;
+
+
+
+    var bar_ctx = document.getElementById('bar-chart').getContext('2d');
+
+    var purple_orange_gradient = bar_ctx.createLinearGradient(0, 0, 0, 160);
+    purple_orange_gradient.addColorStop(0, 'red');
+    purple_orange_gradient.addColorStop(1, 'green');
+
+    var bar_chart = new Chart(bar_ctx, {
+        type: 'bar',
+        data: {
+            //labels: ["Rating"],
+            datasets: [{
+                label: 'Rating',
+                data: [extractedRating],
+                backgroundColor: purple_orange_gradient,
+                hoverBackgroundColor: purple_orange_gradient,
+                hoverBorderWidth: 2,
+                hoverBorderColor: 'purple'
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true,
+                        display:false,
+                        maxTicksLimit:20,
+                        max:68, 
+                    }
+                }]
+            }
+        }
+    });
+
+
+
+
+
+
         var ctx = document.getElementById("myChart");
-        ctx.width = 100;
-        ctx.height = 40;
+        ctx.width = 40;
+        ctx.height = 10;
         
         var myChart = new Chart(ctx, {
             type: 'pie',

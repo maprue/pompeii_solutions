@@ -6,6 +6,11 @@ const electron = require('electron');
 var {app, BrowserWindow, crashReporter} = electron;
 var PythonShell;
 
+var volcano1;
+var volcano2;
+var volcano3;
+var volcano4;
+
 crashReporter.start({
  productName: 'TaskApp',
  companyName: 'PompeiiSolutions',
@@ -31,7 +36,15 @@ app.on('ready', function() {
         mainWindow = null;
     });
 
+    // mainWindow.onload = function() {
+    //     loadImages();
+    //     console.log('will load images');
+    //   };
+
     PythonShell = require('python-shell');
+
+    //img_tmp = document.getElementById
+
 
 });
 
