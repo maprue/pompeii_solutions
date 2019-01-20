@@ -17,11 +17,16 @@ function performSearch(message) {
 //     });
 
     const spawn = require("child_process").spawn;
-    const pythonProcess = spawn('python',["search.py", message]);
+    const pythonProcess = spawn('python',["search_fx.py", message]);
 
     pythonProcess.stdout.on('data', (data) => {
     // Do something with the data returned from python script
         alert(data);
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+    // Do something with the data returned from python script
+        alert('error: ' + data);
     });
 
     //alert(message);
