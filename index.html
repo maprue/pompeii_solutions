@@ -20,11 +20,20 @@
 <body style="background-image:url(back.jpg)" >
 
   <form autocomplete="off" action="/action_page.php">
-    <div class="autocomplete" style="width:300px;">
+    <div  class="autocomplete" style="width:300px;">
       <input id="myInput" type="text" name="myCountry" placeholder="Country">
     </div>
-    <input type="submit">
+    <input type="button" value="SEIZE" onclick="appear()">
   </form>
+
+  <div id ="myDIV">
+  </div> 
+
+  <script>
+      function appear() {
+        var x = document.getElementById("myDIV").innerHTML = document.getElementById("myInput").value;
+      }
+  </script>
 
   <script> 
     autocomplete(document.getElementById("myInput"), countries);
