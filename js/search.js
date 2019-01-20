@@ -12,8 +12,17 @@ function performSearch(message) {
     //let {PythonShell} = require('python-shell')
     //return new Promise((resolve, reject) => {
 
+
+        //extractedRaw = 1;
+        extractedTransport = 1;
+        extractedStorage = 1;
+        extractedPackaging = 1.5;
+
         const spawn = require("child_process").spawn;
         const pythonProcess = spawn('python',["py/search_fx.py", message]);
+
+
+        // alert('searching for ' + message);
 
         //var execSync = require('exec-sync');
 
@@ -52,6 +61,8 @@ function performSearch(message) {
             extractedTotal = JSON.parse(data)['1']['Total'];
             extractedRating = JSON.parse(data)['1']['Rating'];
 
+            extractedRaw = 4;
+
             // alert(JSON.parse(data)['1']['Name']);
             //console.log(JSON.parse(data));
         });
@@ -63,4 +74,6 @@ function performSearch(message) {
 
     //});
 }
+
+
 

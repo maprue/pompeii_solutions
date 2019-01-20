@@ -1,4 +1,45 @@
 function autocomplete(inp, arr) {
+
+    function extractDbData() {
+
+      var promise1 = new Promise(function(resolve, reject) {
+          performSearch(document.getElementById("myInput").value);
+          setTimeout(function() {
+              resolve('foo');
+          }, 500);
+      });
+
+      // promise1.then(function(value) {
+      //     console.log(value);
+      //     // expected output: "foo"
+      // }, function(error) { console.error(error); });
+
+      // alert('a');
+
+      promise1.then((successMessage) => {
+          // successMessage is whatever we passed in the resolve(...) function above.
+          // It doesn't have to be a string, but if it is only a succeed message, it probably will be.
+          console.log("Yay! " + successMessage);
+          //res = "Yay";
+          //document.getElementById("myDIV").innerHTML = 'res = ' + extractedRating;
+          displayCarbonFootprint();
+      });
+      
+
+      // performSearch('beef').then(
+      //     function(a) {res = 'a';},
+      //     function(b) { res = 'b'; }
+      // );
+      // var x = document.getElementById("myDIV").innerHTML = //document.getElementById("myInput").value;
+      //      res;
+
+      // alert(res);
+      
+  }
+
+
+
+
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
     var currentFocus;
@@ -33,7 +74,8 @@ function autocomplete(inp, arr) {
                 /*close the list of autocompleted values,
                 (or any other open lists of autocompleted values:*/
                 closeAllLists();
-                displayCarbonFootprint();
+                extractDbData();
+                //displayCarbonFootprint();
                  });
             a.appendChild(b);
           }
@@ -100,30 +142,35 @@ function displayCarbonFootprint() {
   // document.body.innerHTML = document.body.innerHTML + "MY ANACONDA DONT";
 
         var ctx = document.getElementById("myChart");
-        ctx.height = 5;
+        ctx.width = 100;
+        ctx.height = 40;
         
         var myChart = new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                labels: ["Raw material", "Storage", "Transport", "Packaging",
+                // "Purple", "Orange"
+                ],
                 datasets: [{
                     label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    data: [extractedRaw, extractedStorage, extractedTransport, extractedPackaging
+                      //, 2, 3
+                    ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
                         'rgba(255, 206, 86, 0.2)',
                         'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                       // 'rgba(153, 102, 255, 0.2)',
+                       // 'rgba(255, 159, 64, 0.2)'
                     ],
                     borderColor: [
                         'rgba(255,99,132,1)',
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                      //  'rgba(153, 102, 255, 1)',
+                      //  'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 1
                 }]
