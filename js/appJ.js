@@ -1,253 +1,96 @@
-var username = "";
-var room = "";
-var update_interval;
-var update_delay = 1000;
-
-/**
- * Randomly generates a string in case the user doesn't enter one
- */
-function makeId() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < 10; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-}
-
-/**
- * Generates the item to add to the list of available rooms
- * @param {string} room Room name
- */
-function generateListItem(room){
-    output = "<div id=\"" + room + "\"\\><ons-list-item tappable>";
-    output += room;
-    output += "</ons-list-item></div>"
-    return output;
-}
-
-/**
- * Create new user
- * @param {string} name New user name
- */
-function createUser(name, callback) {
-    $.ajax({
-        url: "https://saloums7.pythonanywhere.com/users/new",
-        type: "POST",
-        headers: {"Access-Control-Allow-Origin": "*"},
-        data: {
-            "user": name
-        }
-    }).done(callback);
-}
-
-/**
- * Create new volunteer
- * @param {string} name New volunteer name
- */
-function createVolunteer(name, callback) {
-    $.ajax({
-        url: "https://saloums7.pythonanywhere.com/users/new_volunteer",
-        type: "POST",
-        data: {
-            "user": name
-        }
-    }).done(function (data) {
-        callback();
-    });
-}
-
-
-/**
- * Get a list of empty rooms
- */
-function getEmptyRooms() {
-    $.ajax({
-        url: "https://saloums7.pythonanywhere.com/rooms/empty",
-        type: "GET"
-    }).done(function (data) {
-        rooms = data['rooms'];
-        console.log(rooms);
-        rooms.forEach(element => {
-            domItem = generateListItem(element);
-            $("#empty_rooms").append(domItem);
-            $("#"+element).click(function(){
-                joinRoom(element);
+function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            b.addEventListener("click", function(e) {
+                /*insert the value for the autocomplete text field:*/
+                inp.value = this.getElementsByTagName("input")[0].value;
+                /*close the list of autocompleted values,
+                (or any other open lists of autocompleted values:*/
+                closeAllLists();
             });
-        });
-    });
-}
-
-/**
- * Fetches a list of rooms assigned to current user
- * @param {string} user Username who's rooms must be fetched
- */
-function getAssignedRooms(){
-    $.ajax({
-        url: "https://saloums7.pythonanywhere.com/user/"+ username + "/rooms",
-        type: "GET"
-    }).done(function(data){
-        rooms = data['rooms'];
-        rooms.forEach(element => {
-            domItem = generateListItem(element);
-            $("#volunteer_rooms").append(domItem);
-            $("#"+element).click(function(){
-                joinRoom(element);
-            });
-        });
-    });
-}
-
-/**
- * Allow volunteer user to join a chat room
- * @param {string} selected_room Room that volunteer wants to join
- * @param {string} user Volunteer's username
- */
-function joinRoom(selected_room) {
-    $.ajax({
-        url: "https://saloums7.pythonanywhere.com/rooms/join",
-        type: "POST",
-        data: {
-            "user": username,
-            "room": selected_room
+            a.appendChild(b);
+          }
         }
-    }).done(function (data) {
-        room = selected_room;
-        document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: 'Get help'}});
     });
-}
-
-
-function getFormattedSentMessage(message){
-    output = "<div class=\"sent_msg\">";
-    output += message;
-    output += "</div>";
-    return output;
-}
-
-function getFormattedReceivedMessage(message){
-    output = "<div class=\"received_msg\">";
-    output += message;
-    output += "</div>";
-    return output;
-}
-
-
-/**
- * Get recent messages from room
- * @param {string} room Room joined by volunteer
- */
-function getRoomMessages(room) {
-    $.ajax({
-        url: "https://saloums7.pythonanywhere.com/room/" + room + "/message",
-        type: "GET"
-    }).done(function (data) {
-        messages = data["messages"];
-        if(messages && messages.length > 0){
-            $("#chat_layout").empty();
-            messages.forEach(element => {
-                user = element["sender"];
-                message = element["message"]
-                console.log(message);
-                if(user == username){
-                    output = getFormattedSentMessage(message);
-                }
-                else {
-                    output = getFormattedReceivedMessage(message);
-                }
-                $("#chat_layout").append(output);
-            });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If the arrow UP key is pressed,
+          decrease the currentFocus variable:*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
         }
-    })
-}
-
-/**
- * Send message
- * @param {string} room Name of room
- * @param {string} message Message to send
- * @param {string} user User sending message
- */
-function sendMessage() {
-    var message = $("#typed_msg>input").val();
-    $.ajax({
-        url: "https://saloums7.pythonanywhere.com/room/" + room + "/message",
-        type: "POST",
-        data: {
-            "user": username,
-            "message": message
-        }
-    }).done(function (data) {
-        $("#typed_msg>input").val('');
     });
-}
-
-function checkUsername(callback){
-  username = $("#username>input").val();
-  if(username == ""){
-    username = makeId();
-    $("#username>input").val(username);
-  }
-  console.log(username);
-  callback();
-}
-
-document.addEventListener('init', function(event) {
-    var page = event.target;
-  
-    if (page.id === 'page1') {
-      page.querySelector('#push-button').onclick = function() 
-      {
-        checkUsername(function(){
-          createUser(username, function(){
-            room = username;
-            document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: 'Get help'}});
-          });
-        });
-      };
-     
-      page.querySelector('#push-button2').onclick = function() 
-      {
-        checkUsername(function(){
-          createVolunteer(username, function(){
-              getEmptyRooms();
-              getAssignedRooms();
-            document.querySelector('#myNavigator').pushPage('page3.html', {data: {title: 'Volunteer'}});
-
-          });
-        });
-      };
-
-    } else if (page.id === 'page2' || page.id ==='page3') {
-      page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
-      if(page.id == "page2"){
-        page.querySelector("#send_btn").onclick = sendMessage;
-        update_interval = setInterval(function () {
-            if(room != "")
-                getRoomMessages(room);
-        }, update_delay);
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
       }
-    } 
-  });
-
-   /* Implementation for drop down menus */
-  
-   window.fn = {};
-
-   window.fn.open = function() {
-     var menu = document.getElementById('menu');
-     menu.open();
-   };
-   
-   window.fn.load = function(page, data) {
-     var content = document.getElementById('myNavigator');
-     var menu = document.getElementById('menu');
-     content.pushPage(page, data)
-       .then(menu.close.bind(menu));
-   };
-   
-   window.fn.pop = function() {
-     var content = document.getElementById('myNavigator');
-     content.popPage();
-   };
-
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+  }

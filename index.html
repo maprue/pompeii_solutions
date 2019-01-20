@@ -3,28 +3,41 @@
 <head>
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">.
   <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+  <script type="text/javascript" src="js/appJ.js"></script> 
+  <script type="text/javascript" src="js/list.js"></script> 
 
- 
-</head>
-<body>
+  <title>YO C'EST NOTRE APP</title>
+  <header>
+    <h1>SEIZE THE MEANS OF PRODUCTION</h1>
+  </header>
 
-    <p style="text-align: center; margin-top: 10px;">
-        <ons-search-input
-          placeholder="Search"
-          onchange="ons.notification.alert('Searched for: ' + this.value)"
-        ></ons-search-input>
-      </p>
+  </head>
+
+<body style="background-image:url(back.jpg)" >
+
+  <form autocomplete="off" action="/action_page.php">
+    <div class="autocomplete" style="width:300px;">
+      <input id="myInput" type="text" name="myCountry" placeholder="Country">
+    </div>
+    <input type="submit">
+  </form>
+
+  <script> 
+    autocomplete(document.getElementById("myInput"), countries);
+  </script>
 
 
-  <div class = "container">
-      <canvas id="myChart" width="40" height="40"></canvas>
-  </div>>
+  <ons-card>
+    <div class = "container">
+        <canvas id="myChart" width="40" height="40"></canvas>
+    </div>
+  </ons-card>
 
 
-    
-    <script>
+  <script>
         var ctx = document.getElementById("myChart");
         ctx.height = 5;
         var myChart = new Chart(ctx, {
@@ -63,7 +76,7 @@
                 }
             }
         });
-      </script>
-        
+  </script>
+
 </body>
 </html>
