@@ -29,29 +29,5 @@ app.on('ready', function() {
     mainWindow.on('closed', function() {
         mainWindow = null;
     });
-
-//     var python = require('child_process').spawn('python', ['./hello.py']);
-//     python.stdout.on('data',function(data){
-//         console.log("data: ",data.toString('utf8'));
-//     });
-// 
-//     var {PythonShell} = require('python-shell');
-// 
-//     PythonShell.run('hello.py', function(err, results) {
-//         if (err)
-//             throw err;
-//         console.log('hello.py finished.');
-//         console.log('results', results);
-//     }, function(err) { if(err) throw(err); });
-// 
-    //import {PythonShell} from 'python-shell';
-    let {PythonShell} = require('python-shell')
-
-    PythonShell.run('hello.py', null, function (err, results) {
-      if (err) throw err;
-      console.log('finished');
-      console.log('results', results);
-    });
-
 });
 
