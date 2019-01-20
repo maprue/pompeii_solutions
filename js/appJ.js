@@ -172,19 +172,24 @@ function displayCarbonFootprint() {
 
     var bar_chart = new Chart(bar_ctx, {
         type: 'bar',
+        showTooltips: false,
         data: {
+          showTooltips: false,
             //labels: ["Rating"],
             datasets: [{
                 label: 'Rating',
                 data: [extractedRating],
                 backgroundColor: purple_orange_gradient,
-                hoverBackgroundColor: purple_orange_gradient,
-                hoverBorderWidth: 2,
-                hoverBorderColor: 'purple'
+                // hoverBackgroundColor: purple_orange_gradient,
+                // hoverBorderWidth: 2,
+                // hoverBorderColor: 'purple'
             }]
         },
+        showTooltips: false,
         options: {
-            legend: {
+          events: [],
+          showTooltips: false,
+          legend: {
                 display: false
             },
             scales: {
@@ -251,7 +256,7 @@ function displayCarbonFootprint() {
         });
 
          
-         ctx.style.backgroundColor = 'rgba(255,255,255, 0.9)';
+         ctx.style.backgroundColor = 'rgba(255,255,255, 0.98)';
          
        
 // var div = document.createElement("myChart");

@@ -6,11 +6,6 @@ const electron = require('electron');
 var {app, BrowserWindow, crashReporter} = electron;
 var PythonShell;
 
-var volcano1;
-var volcano2;
-var volcano3;
-var volcano4;
-
 crashReporter.start({
  productName: 'TaskApp',
  companyName: 'PompeiiSolutions',
@@ -28,7 +23,7 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
 
     // Window size
-    mainWindow = new BrowserWindow({width: 800, height: 600});
+    mainWindow = new BrowserWindow({width: 1100, height: 900});
     // Initial loading file
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
