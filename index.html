@@ -5,15 +5,16 @@
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
   <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-
+  <script src="search.js"></script>
  
 </head>
 <body>
 
     <p style="text-align: center; margin-top: 10px;">
         <ons-search-input
+          id="SearchBox"
           placeholder="Search"
-          onchange="ons.notification.alert('Searched for: ' + this.value)"
+          onchange="performSearch(this.value);"
         ></ons-search-input>
       </p>
 
