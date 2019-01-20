@@ -21,13 +21,18 @@ function performSearch(message) {
 
     pythonProcess.stdout.on('data', (data) => {
     // Do something with the data returned from python script
-        alert(data);
+        //alert(data);
+        //alert(data)
+        alert(JSON.parse(data)['1']['Name']);
+        //console.log(JSON.parse(data));
     });
 
     pythonProcess.stderr.on('data', (data) => {
     // Do something with the data returned from python script
         alert('error: ' + data);
     });
+
+    console.log('joijoijioj');
 
     //alert(message);
 
